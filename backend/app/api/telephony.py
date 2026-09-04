@@ -171,22 +171,35 @@ async def call_me(
 
     client = _twilio_client()
     try:
+        # Minimal params only — Twilio's newer Voice trials reject many Call
+        # create fields (and custom webhook URLs) with "limited parameter access".
         call = client.calls.create(
             to=to,
             from_=from_number,
             url=twiml_url,
-            method="POST",
         )
     except TwilioRestException as exc:
         hint = ""
         msg = (exc.msg or str(exc)).lower()
-        if "unverified" in msg or "not a valid" in msg or exc.code in {21219, 21214}:
+        if (
+            "limited parameter access" in msg
+            or "disallowed parameters" in msg
+            or exc.code == 10002
+        ):
+            hint = (
+                " Your Twilio account is still on Voice trial: outbound calls "
+                "with a custom webhook (ngrok) are blocked. Fix: upgrade at "
+                "https://console.twilio.com/billing/upgrade (add payment method), "
+                "OR skip Call-my-phone and dial your Twilio number inbound "
+                "(webhook → /telephony/incoming). Test Agent chat works without Twilio."
+            )
+        elif "unverified" in msg or "not a valid" in msg or exc.code in {21219, 21214}:
             hint = (
                 " Twilio trial: verify your number at "
                 "https://console.twilio.com/us1/develop/phone-numbers/manage/verified"
                 f" → add {to}, then retry."
             )
-        if "authenticate" in msg or exc.status == 401:
+        elif "authenticate" in msg or exc.status == 401:
             hint = (
                 " Check TWILIO_ACCOUNT_SID (ACxxx) and TWILIO_AUTH_TOKEN "
                 "from Twilio Console → Account → API keys & tokens."
