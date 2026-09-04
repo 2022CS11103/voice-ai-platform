@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Env & secrets
+.env
+.env.local
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# Uploads & data
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.db
+*.db-journal
+backend/voice_ai.db
+
+# Node
+node_modules/
+frontend/.next/
+frontend/out/
+*.tsbuildinfo
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Docker
+postgres_data/
