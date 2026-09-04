@@ -247,16 +247,27 @@ export default function AgentDetailPage() {
           <p className="mt-3 text-sm text-emerald-700">{callMeStatus}</p>
         )}
         <p className="mt-3 text-xs text-[var(--muted)]">
-          Twilio trial: pehle{" "}
+          Twilio trial tip: pehle number{" "}
           <a
             className="underline"
             href="https://console.twilio.com/us1/develop/phone-numbers/manage/verified"
             target="_blank"
             rel="noreferrer"
           >
-            verify +918318762518
+            Verified Caller ID
           </a>{" "}
-          as a Verified Caller ID. Backend + ngrok running hona chahiye.
+          me add karo. Agar &quot;limited parameter access&quot; aaye to outbound
+          custom webhook trial me blocked hai —{" "}
+          <a
+            className="underline"
+            href="https://console.twilio.com/billing/upgrade"
+            target="_blank"
+            rel="noreferrer"
+          >
+            account upgrade
+          </a>{" "}
+          karo, ya Twilio number pe khud call karo (inbound). Backend + ngrok
+          running hona chahiye.
         </p>
         {!phone && (
           <p className="mt-4 text-sm text-amber-800">
